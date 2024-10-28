@@ -136,7 +136,7 @@ export const getAllPosts = async (
 
     const skip: number = parseInt(req.query.skip as string); 
     const limit: number = parseInt(req.query.limit as string); 
-    const ShowPost = skip * limit;
+    const skipPost = (skip - 1) * limit;
 
     if (search && status) {
       filter.$and = [
@@ -165,7 +165,7 @@ export const getAllPosts = async (
 
     post = await Post.find(filter)
       .sort({ createdAt: -1 })
-      .skip(skip)
+      .skip(skipPost)
       .limit(limit)
       .populate({
         path: "media",
