@@ -3,7 +3,7 @@ import path from "path";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./app/postMedia"); 
+    cb(null, "./public/postMedia"); 
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
@@ -24,7 +24,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 export const upload = multer({
-  storage: storage,
+  storage,
   limits: { fileSize: 120 * 1024 * 1024 }, 
-  fileFilter: fileFilter,
+  fileFilter,
 });

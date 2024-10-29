@@ -17,7 +17,6 @@ const adminVerify = async (
   next: NextFunction
 ) => {
   let token;
-
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -27,6 +26,7 @@ const adminVerify = async (
  
   if (!token) {
     res.status(400).json("Token is required");
+    return;
   }
 
   try {
@@ -41,8 +41,10 @@ const adminVerify = async (
       res.status(404).json({
         message: "User not Found",
       });
+      return;
     }
     req.user = user;
+  
     next();
   } catch (error) {
     res.status(401).send({ message: "Unauthorized!", error: error.message });
