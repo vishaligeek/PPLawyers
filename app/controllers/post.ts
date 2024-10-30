@@ -24,6 +24,11 @@ export const createPost = async (req, res: Response): Promise<void> => {
       res.status(400).json({ message: "Please add a tag" });
       return;
     }
+    const postDate = new Date(dateandtime).getTime();
+    if (postDate < Date.now()) {
+    res.status(400).json({ message: "Date is not valid" });
+    return;
+    }
 
     const newPost = await Post.create({
       name,
@@ -59,8 +64,10 @@ export const createPost = async (req, res: Response): Promise<void> => {
 export const editPost = async (req, res: Response): Promise<void> => {
   try {
     
-    const { name, dateandtime, title, tag, } = req.body;
+    const { name, dateandtime, title, tag:strigifyTags } = req.body;
     const { postId } = req.params;
+    const tag = JSON.parse(strigifyTags)
+
     const post = await Post.findById(postId);
     if (!post) {
       res.status(400).json({ message: "Post is not found" });
@@ -79,6 +86,11 @@ export const editPost = async (req, res: Response): Promise<void> => {
     } else if (!tag) {
       res.status(400).json({ message: "Please add a tag" });
       return;
+    }
+    const postDate = new Date(dateandtime).getTime();
+    if (postDate < Date.now()) {
+    res.status(400).json({ message: "Date is not valid" });
+    return;
     }
 
     let media;
@@ -136,7 +148,7 @@ export const getAllPosts = async (
 
     const skip: number = parseInt(req.query.skip as string); 
     const limit: number = parseInt(req.query.limit as string); 
-    const ShowPost = skip * limit;
+    const skipPost = (skip - 1) * limit;
 
     if (search && status) {
       filter.$and = [
@@ -165,7 +177,7 @@ export const getAllPosts = async (
 
     post = await Post.find(filter)
       .sort({ createdAt: -1 })
-      .skip(skip)
+      .skip(skipPost)
       .limit(limit)
       .populate({
         path: "media",
@@ -179,6 +191,27 @@ export const getAllPosts = async (
         });
       },2000)
  
+  } catch (error) {
+    res.status(500).json({ message: "Server error.", error: error.message });
+  }
+};
+
+export const getPost = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { postId } = req.params;
+    if (!postId) {
+      res.status(400).json({ message: "PostId is require" });
+      return;
+    }
+
+    const mediaPostId = new mongoose.Types.ObjectId(postId);
+    const media = await Media.findOne({ post: mediaPostId });
+    const post = await Post.findById(postId);
+
+    res.status(200).json({ message: "Post is Found." ,post, media });
   } catch (error) {
     res.status(500).json({ message: "Server error.", error: error.message });
   }
