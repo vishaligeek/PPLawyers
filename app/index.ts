@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
 import path from "path";
+import { publishScheduledPosts } from "./cron/publishScheduledPosts";
 const app = express();
 const morgan = require("morgan");
 
@@ -29,4 +30,5 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  publishScheduledPosts();
 });
