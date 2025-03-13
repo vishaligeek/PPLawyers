@@ -1,30 +1,29 @@
 import multer from "multer";
-import path from "path";
+import { Storage } from "@google-cloud/storage";
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/postMedia"); 
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
+const storage = new Storage({
+  keyFilename: "./bucket.json",
 });
+const bucketName = process.env.GCP_BUCKET_NAME;
+const bucket = storage.bucket(bucketName);
 
+const multerStorage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
-  const fileTypes = /jpeg|jpg|png|mp4/; 
-  const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = fileTypes.test(file.mimetype);
+  const allowedMimeTypes = ["image/jpeg", "image/png", "video/mp4"];
+  const mimetype = allowedMimeTypes.includes(file.mimetype);
 
-  if (mimetype && extname) {
+  if (mimetype) {
     return cb(null, true);
   } else {
-    cb(new Error("File type not supported. Only images and videos are allowed."));
+    cb(
+      new Error("File type not supported. Only images and videos are allowed.")
+    );
   }
 };
 
 export const upload = multer({
-  storage,
-  limits: { fileSize: 120 * 1024 * 1024 }, 
+  storage: multerStorage,
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter,
-});
+}).single("imageName");

@@ -23,7 +23,7 @@ const adminVerify = async (
   ) {
     token = req.headers.authorization.split(" ")[1];
   }
- 
+
   if (!token) {
     res.status(400).json("Token is required");
     return;
@@ -44,7 +44,7 @@ const adminVerify = async (
       return;
     }
     req.user = user;
-  
+
     next();
   } catch (error) {
     res.status(401).send({ message: "Unauthorized!", error: error.message });

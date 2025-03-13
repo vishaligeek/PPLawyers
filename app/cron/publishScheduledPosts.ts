@@ -1,19 +1,17 @@
-import cron from 'node-cron';
-import Post  from '../db/models/post';
-import { PostStatus } from '../types/postTypes';
+import cron from "node-cron";
+import Post from "../db/models/post";
+import { DateTime } from "luxon";
+import { PostStatus } from "../types/postTypes";
 
 export const publishScheduledPosts = () => {
-  
-  cron.schedule('0 * * * *', async () => {
+  cron.schedule("0 */12 * * *", async () => {
     try {
-      const now = new Date();
-      const utcDate = now.toISOString();
-
+      const nowISO = DateTime.now().setZone("Australia/Sydney").toISO();
       const postsToPublish = await Post.find({
         status: PostStatus.SCHEDULED,
-        dateandtime: { $lte : utcDate },
+        date: { $lte: nowISO },
       });
-  
+
       if (postsToPublish.length > 0) {
         for (const post of postsToPublish) {
           post.status = PostStatus.PUBLISHED;

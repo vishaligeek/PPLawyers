@@ -15,9 +15,11 @@ export const userRegister = async (req: Request, res: Response) => {
     const existing = await User.findOne({ email: email });
     if (existing) {
       res.status(403).json({ message: "User with email already exists." });
+      return;
     }
     if (!password) {
-      res.status(404).json({ message: "Password is required to create user" });
+      res.status(404).json({ message: "Password is required to create user." });
+      return;
     }
     let encryptedMessage = "";
     encryptedMessage = await passwordHelper.encryptPassword(password);
@@ -35,17 +37,22 @@ export const userRegister = async (req: Request, res: Response) => {
 export const userLogin = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email })
+    const user = await User.findOne({ email: email });
 
     if (!user) {
       res.status(404).json({ message: "User not found.", isError: true });
+      return;
     }
     const encryptedMessage = await passwordHelper.decryptPassword(
       password,
       user.password
     );
     if (!encryptedMessage) {
-      res.status(401).json({ message: "Incorrect password. Please try again.", isError: true });
+      res.status(401).json({
+        message: "Incorrect password. Please try again.",
+        isError: true,
+      });
+      return;
     }
     const token = generateJWTAccessToken(user);
 
@@ -55,8 +62,6 @@ export const userLogin = async (req: Request, res: Response) => {
       user,
     });
   } catch (error) {
-     res.status(403).json({ message: "Error logging in user" });
+    res.status(403).json({ message: "Error logging in user." });
   }
 };
-
-

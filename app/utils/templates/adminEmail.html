@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Poppins:wght@500&display=swap"
+        rel="stylesheet">
+    <title>Template</title>
+    <style>
+        @media screen and (max-width: 640px) {
+            .container {
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .img-logo {
+                max-width: 100% !important;
+                height: auto !important;
+            }
+
+            .img-cover {
+                width: 100% !important;
+                height: 100% !important;
+            }
+
+            .section {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            }
+
+            .column {
+                width: 100% !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                margin-bottom: 10px;
+            }
+
+            .column label,
+            .column p {
+                margin-left: 0 !important;
+                font-size: 12px !important;
+            }
+
+            .content {
+                font-size: 12px !important;
+            }
+
+            .column p {
+                font-size: 12px !important;
+                height: auto;
+                display: inline;
+
+            }
+
+            .footer {
+                font-size: 12px !important;
+                padding-top: 10px !important;
+            }
+        }
+    </style>
+</head>
+
+<body
+    style="margin: auto; padding: 0; background-color: #ffffff !important; font-family: Montserrat, sans-serif; box-sizing: border-box;">
+
+    <div class="container"
+        style="max-width: 640px; margin: auto; border: 1px solid black; background-color: #ffffff !important;  background-image: url(cid:bgimg@unique); background-repeat: no-repeat; background-size: 222.55px 327.69px; background-position: right bottom;">
+
+        <!-- Logo Section -->
+        <div style="padding: 30px 0; text-align: center; background-color: #ffffff !important;">
+            <img src="cid:logo@unique" alt="company logo" class="img-logo logo-light"
+                style="width: 242.84px; height: 14.28px;">
+        </div>
+
+        <!-- Cover Image Section -->
+        <div class="img-cover">
+            <img src="cid:cover@unique" alt="coverImage" style="width: 100%; height: 201.92px;">
+        </div>
+
+        <!-- Content Section with Background Image -->
+        <div class="section" style="margin-top: 30px;">
+
+            <!-- User Info Fields -->
+            <div style="display: block; gap: 10px;">
+
+                <div style="display: block; width: 100%; font-size: 0;">
+                    <!-- First Name & Last Name Columns -->
+                    <div class="column"
+                        style="width: 50%; vertical-align: top; font-size: 14px; display: inline-block;">
+                        <label style="display: block; font-weight: 500; color: #717171; margin-left: 40px;">First
+                            name</label>
+                        <p
+                            style="font-family: Poppins, sans-serif; color: #000000; font-size: 14px; font-weight: 500; line-height: 21px; margin-left: 40px;">
+                            <%= firstName %>
+                        </p>
+                    </div>
+                    <div class="column"
+                        style="width: 50%; vertical-align: top; font-size: 14px; display: inline-block;">
+                        <label style="display: block; font-weight: 500; color: #717171; margin-left: 40px;">Last
+                            name</label>
+                        <p
+                            style="font-family: Poppins, sans-serif; color: #000000; font-size: 14px; font-weight: 500; line-height: 21px; margin-left: 40px;">
+                            <%= lastName %>
+                        </p>
+                    </div>
+                </div>
+
+                <div style="display: block; width: 100%; font-size: 0;">
+                    <!-- Email & Telephone Columns -->
+                    <div class="column"
+                        style="width: 50%; vertical-align: top; font-size: 14px; display: inline-block;">
+                        <label
+                            style="display: block; font-weight: 500; color: #717171; margin-left: 40px;">Email</label>
+                        <p
+                            style="font-family: Poppins, sans-serif; color: #000000; font-size: 14px; font-weight: 500; line-height: 21px; margin-left: 40px;">
+                            <%= email %>
+                        </p>
+                    </div>
+                    <div class="column"
+                        style="width: 50%; vertical-align: top; font-size: 14px; display: inline-block;">
+                        <label
+                            style="display: block; font-weight: 500; color: #717171; margin-left: 40px;">Telephone</label>
+                        <p
+                            style="font-family: Poppins, sans-serif; color: #000000; font-size: 14px; font-weight: 500; line-height: 21px; margin-left: 40px;">
+                            <%= telephone %>
+                        </p>
+                    </div>
+                </div>
+
+                <div style="display: block; width: 100%; font-size: 0;">
+                    <!-- Referred By & Referred To Lawyer Columns -->
+                    <div class="column"
+                        style="width: 50%; vertical-align: top; font-size: 14px; display: inline-block;">
+                        <label style="display: block; font-weight: 500; color: #717171; margin-left: 40px;">Were you
+                            referred to us? If so, who referred you?</label>
+                        <p
+                            style="font-family: Poppins, sans-serif; color: #000000; font-size: 14px; font-weight: 500; line-height: 21px; margin-left: 40px;">
+                            <%= referredBy %>
+                        </p>
+                    </div>
+                    <div class="column"
+                        style="width: 50%; vertical-align: top; font-size: 14px; display: inline-block;">
+                        <label style="display: block; font-weight: 500; color: #717171; margin-left: 40px;">Were you
+                            referred to a<br>particular lawyer? If so, who?</label>
+                        <p
+                            style="font-family: Poppins, sans-serif; color: #000000; font-size: 14px; font-weight: 500; line-height: 21px; margin-left: 40px;">
+                            <%= referredToLawyer %>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="column" style="padding: 0px 165px 0px 40px;">
+                    <label style="display: block; font-size: 14px; font-weight: 500; color: #717171;">Would you prefer
+                        to be contacted by:</label>
+                    <p
+                        style="font-family: Poppins, sans-serif; color: #000000; font-size: 14px; font-weight: 500; line-height: 21px;">
+                        <%= preferredContactMethod %>
+                    </p>
+                </div>
+
+                <div class="column" style="padding: 0px 40px 0px 40px;">
+                    <label style="display: block; font-size: 14px; font-weight: 500; color: #717171;">Message</label>
+                    <p
+                        style="font-family: Poppins, sans-serif; color: #000000; font-size: 14px; font-weight: 500; line-height: 21px; width: 100%; min-height: 102px;">
+                        <%= message %>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer" style="text-align: center; color: #636363; padding-top: 10px;">
+            <p style="font-family: Montserrat, sans-serif; font-size: 14px;">© 2024 PPL All Rights Reserved. Privacy
+                Policy</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 
 export const encryptPassword = async (password: string): Promise<string> => {
   const salt = await bcrypt.genSalt(12);
@@ -6,7 +6,10 @@ export const encryptPassword = async (password: string): Promise<string> => {
   return hashedPassword;
 };
 
-export const decryptPassword = async (enteredPassword: string, userPassord: string): Promise<boolean> => {
+export const decryptPassword = async (
+  enteredPassword: string,
+  userPassord: string
+): Promise<boolean> => {
   const result = await bcrypt.compare(enteredPassword, userPassord);
   return result;
 };
