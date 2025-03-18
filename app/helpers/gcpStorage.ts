@@ -6,7 +6,7 @@ const storage = new Storage({
 
 require("dotenv").config();
 const bucketName = process.env.GCP_BUCKET_NAME;
-
+const folderPath = process.env.GCP_BUCKET_FOLDER;
 const bucket = storage.bucket(bucketName);
 const retentionPeriodSeconds = 100 * 365 * 24 * 60 * 60;
 
@@ -16,16 +16,17 @@ export const uploadFileToGCP = async (
   mimeType: string
 ) => {
   try {
-    const gcpFile = bucket.file(fileName);
+    const gcpFile = bucket.file(`${folderPath}/${fileName}`);
     await gcpFile.save(fileBuffer, {
       resumable: false,
       contentType: mimeType,
+      predefinedAcl: "publicRead",
       metadata: {
         cacheControl: "public, max-age=31536000",
       },
     });
 
-    const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+    const publicUrl = `https://storage.googleapis.com/${bucketName}/${folderPath}/${fileName}`;
     return publicUrl;
   } catch (error) {
     throw new Error("Failed to upload file to GCP bucket");

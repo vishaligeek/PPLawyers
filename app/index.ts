@@ -17,6 +17,7 @@ require("./db/config/config").connect();
 
 app.use(morgan("dev"));
 app.set("view engine", "ejs");
+app.set("trust proxy", true);
 app.use(express.json());
 app.use(bodyParser.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "20mb" }));
@@ -24,6 +25,9 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, "public")));
 // Routes
+app.get("/", (req, res) => {
+  res.send('GCP APP engine');
+});
 app.use("/auth", authRoutes);
 app.use("/post", postRoutes);
 app.use("/contact", cotactRoutes);
