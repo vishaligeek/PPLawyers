@@ -35,7 +35,7 @@ export const uploadFileToGCP = async (
 
 export const deleteFileFromGCP = async (fileName: string) => {
   try {
-    const file = bucket.file(fileName);
+    const file = bucket.file(`${folderPath}/${fileName}`);
     await file.delete();
   } catch (error) {
     throw new Error("Failed to delete media file from GCP bucket");
