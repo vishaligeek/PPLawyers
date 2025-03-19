@@ -12,20 +12,23 @@ export interface UserDetails {
 export const userRegister = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
-    const existing = await User.findOne({ email: email });
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+    const trimmedUsername = username.trim();
+    const existing = await User.findOne({ email: trimmedEmail });
     if (existing) {
       res.status(403).json({ message: "User with email already exists." });
       return;
     }
-    if (!password) {
+    if (!trimmedPassword) {
       res.status(404).json({ message: "Password is required to create user." });
       return;
     }
     let encryptedMessage = "";
-    encryptedMessage = await passwordHelper.encryptPassword(password);
+    encryptedMessage = await passwordHelper.encryptPassword(trimmedPassword);
     const user = await User.create({
-      username,
-      email,
+      username: trimmedUsername,
+      email: trimmedEmail,
       password: encryptedMessage,
     });
     res.status(200).json({ message: "User created.", user });
